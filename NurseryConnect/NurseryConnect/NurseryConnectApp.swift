@@ -1,32 +1,13 @@
-//
-//  NurseryConnectApp.swift
-//  NurseryConnect
-//
-//  Created by Hirusha Chamod on 2026-04-05.
-//
-
 import SwiftUI
 import SwiftData
 
 @main
 struct NurseryConnectApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ChildListView()
         }
-        .modelContainer(sharedModelContainer)
+        // This is the magic line! It creates the local SQLite database for these models.
+        .modelContainer(for: [Child.self, DailyLog.self, Incident.self])
     }
 }
